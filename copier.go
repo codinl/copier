@@ -25,7 +25,7 @@ const (
 )
 
 // Copy copy things
-func Copy(toValue interface{}, fromValue interface{}) (err error) {
+func Copy(toValue interface{}, fromValue interface{}, ignoreZero bool) (err error) {
 	var (
 		isSlice bool
 		amount  = 1
@@ -106,8 +106,8 @@ func Copy(toValue interface{}, fromValue interface{}) (err error) {
 					// has field
 					if toField := dest.FieldByName(name); toField.IsValid() {
 						if toField.CanSet() {
-							if !set(toField, fromField) {
-								if err := Copy(toField.Addr().Interface(), fromField.Interface()); err != nil {
+							if !set(toField, fromField, ignoreZero) {
+								if err := Copy(toField.Addr().Interface(), fromField.Interface(), ignoreZero); err != nil {
 									return err
 								}
 							} else {
@@ -148,7 +148,7 @@ func Copy(toValue interface{}, fromValue interface{}) (err error) {
 					if toField := dest.FieldByName(name); toField.IsValid() && toField.CanSet() {
 						values := fromMethod.Call([]reflect.Value{})
 						if len(values) >= 1 {
-							set(toField, values[0])
+							set(toField, values[0], ignoreZero)
 						}
 					}
 				}
@@ -197,8 +197,11 @@ func indirectType(reflectType reflect.Type) reflect.Type {
 	return reflectType
 }
 
-func set(to, from reflect.Value) bool {
+func set(to, from reflect.Value, ignoreZero bool) bool {
 	if from.IsValid() {
+		if ignoreZero && from.IsZero() {
+			return true
+		}
 		if to.Kind() == reflect.Ptr {
 			//set `to` to nil if from is nil
 			if from.Kind() == reflect.Ptr && from.IsNil() {
@@ -218,7 +221,7 @@ func set(to, from reflect.Value) bool {
 				return false
 			}
 		} else if from.Kind() == reflect.Ptr {
-			return set(to, from.Elem())
+			return set(to, from.Elem(), ignoreZero)
 		} else {
 			return false
 		}
