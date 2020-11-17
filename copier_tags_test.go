@@ -42,5 +42,5 @@ func TestCopyTagMust(t *testing.T) {
 			t.Error("Expected a panic.")
 		}
 	}()
-	Copy(employee, user)
+	Copy(employee, user, true)
 }

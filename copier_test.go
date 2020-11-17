@@ -104,8 +104,8 @@ func checkEmployee2(employee Employee, user *User, t *testing.T, testCase string
 
 func TestCopyStruct(t *testing.T) {
 	var fakeAge int32 = 12
-	user := User{Name: "Jinzhu", Nickname: "codinl", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
-	employee := Employee{}
+	user := User{Name: "Jinzhu", Nickname: "codinl", Age: 10, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
+	employee := Employee{Age: 20}
 
 	if err := copier.Copy(employee, &user, true); err == nil {
 		t.Errorf("Copy to unaddressable value should get error")
@@ -113,6 +113,7 @@ func TestCopyStruct(t *testing.T) {
 
 	copier.Copy(&employee, &user, true)
 	checkEmployee(employee, user, t, "Copy From Ptr To Ptr")
+	t.Logf("employee=%#v \n", employee)
 
 	employee2 := Employee{}
 	copier.Copy(&employee2, user, true)
@@ -240,7 +241,7 @@ func TestEmbeddedAndBase(t *testing.T) {
 	type Base struct {
 		BaseField1 int
 		BaseField2 int
-		User *User
+		User       *User
 	}
 
 	type Embed struct {
@@ -256,27 +257,27 @@ func TestEmbeddedAndBase(t *testing.T) {
 	embedded.EmbedField1 = 3
 	embedded.EmbedField2 = 4
 
-	user:=User{
-		Name:"testName",
+	user := User{
+		Name: "testName",
 	}
-	embedded.User=&user
+	embedded.User = &user
 
 	copier.Copy(&base, &embedded, true)
 
-	if base.BaseField1 != 1 || base.User.Name!="testName"{
+	if base.BaseField1 != 1 || base.User.Name != "testName" {
 		t.Error("Embedded fields not copied")
 	}
 
-	base.BaseField1=11
-	base.BaseField2=12
-	user1:=User{
-		Name:"testName1",
+	base.BaseField1 = 11
+	base.BaseField2 = 12
+	user1 := User{
+		Name: "testName1",
 	}
-	base.User=&user1
+	base.User = &user1
 
-	copier.Copy(&embedded,&base, true)
+	copier.Copy(&embedded, &base, true)
 
-	if embedded.BaseField1 != 11 || embedded.User.Name!="testName1" {
+	if embedded.BaseField1 != 11 || embedded.User.Name != "testName1" {
 		t.Error("base fields not copied")
 	}
 }
