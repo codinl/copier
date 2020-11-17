@@ -21,7 +21,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/jinzhu/copier"
+	"github.com/codinl/copier"
 )
 
 type User struct {
@@ -61,7 +61,7 @@ func (employee *Employee) Role(role string) {
 func main() {
 	var (
 		user      = User{Name: "Jinzhu", Age: 18, Role: "Admin", Salary: 200000}
-		users     = []User{{Name: "Jinzhu", Age: 18, Role: "Admin", Salary: 100000}, {Name: "jinzhu 2", Age: 30, Role: "Dev", Salary: 60000}}
+		users     = []User{{Name: "Jinzhu", Age: 18, Role: "Admin", Salary: 100000}, {Name: "codinl 2", Age: 30, Role: "Dev", Salary: 60000}}
 		employee  = Employee{Salary: 150000}
 		employees = []Employee{}
 	)
@@ -93,7 +93,7 @@ func main() {
 	fmt.Printf("%#v \n", employees)
 	// []Employee{
 	//   {Name: "Jinzhu", Age: 18, Salary:0, DoubleAge: 36, EmployeId: 0, SuperRule: "Super Admin"},
-	//   {Name: "jinzhu 2", Age: 30, Salary:0, DoubleAge: 60, EmployeId: 0, SuperRule: "Super Dev"},
+	//   {Name: "codinl 2", Age: 30, Salary:0, DoubleAge: 60, EmployeId: 0, SuperRule: "Super Dev"},
 	// }
 }
 ```
@@ -104,12 +104,12 @@ You can help to make the project better, check out [http://gorm.io/contribute.ht
 
 # Author
 
-**jinzhu**
+**codinl**
 
-* <http://github.com/jinzhu>
+* <http://github.com/codinl>
 * <wosmvp@gmail.com>
-* <http://twitter.com/zhangjinzhu>
+* <http://twitter.com/zhangcodinl>
 
 ## License
 
-Released under the [MIT License](https://github.com/jinzhu/copier/blob/master/License).
+Released under the [MIT License](https://github.com/codinl/copier/blob/master/License).

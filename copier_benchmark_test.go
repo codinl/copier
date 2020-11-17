@@ -4,20 +4,20 @@ import (
 	"encoding/json"
 	"testing"
 
-	"github.com/jinzhu/copier"
+	"github.com/codinl/copier"
 )
 
 func BenchmarkCopyStruct(b *testing.B) {
 	var fakeAge int32 = 12
-	user := User{Name: "Jinzhu", Nickname: "jinzhu", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
+	user := User{Name: "Jinzhu", Nickname: "codinl", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
 	for x := 0; x < b.N; x++ {
-		copier.Copy(&Employee{}, &user)
+		copier.Copy(&Employee{}, &user, true)
 	}
 }
 
 func BenchmarkNamaCopy(b *testing.B) {
 	var fakeAge int32 = 12
-	user := User{Name: "Jinzhu", Nickname: "jinzhu", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
+	user := User{Name: "Jinzhu", Nickname: "codinl", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
 	for x := 0; x < b.N; x++ {
 		employee := &Employee{
 			Name:      user.Name,
@@ -33,7 +33,7 @@ func BenchmarkNamaCopy(b *testing.B) {
 
 func BenchmarkJsonMarshalCopy(b *testing.B) {
 	var fakeAge int32 = 12
-	user := User{Name: "Jinzhu", Nickname: "jinzhu", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
+	user := User{Name: "Jinzhu", Nickname: "codinl", Age: 18, FakeAge: &fakeAge, Role: "Admin", Notes: []string{"hello world", "welcome"}, flags: []byte{'x'}}
 	for x := 0; x < b.N; x++ {
 		data, _ := json.Marshal(user)
 		var employee Employee

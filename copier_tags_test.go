@@ -25,7 +25,7 @@ type User2 struct {
 func TestCopyTagIgnore(t *testing.T) {
 	employee := EmployeeTags{ID: 100}
 	user := User1{Name: "Dexter Ledesma", DOB: "1 November, 1970", Address: "21 Jump Street", ID: 12345}
-	Copy(&employee, user)
+	Copy(&employee, user, true)
 	if employee.ID == user.ID {
 		t.Error("Was not expected to copy IDs")
 	}
